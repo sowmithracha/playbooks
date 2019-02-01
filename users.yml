@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+  - name: creating users
+    user: name={{ item }} state=present
+    with_items:
+      - suresh
+      - ramesh
+      - mahesh
+  - name: create the platform user
+    user: name=centos state=present
+    when: ansible_distribution == "centos"

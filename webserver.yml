@@ -1,0 +1,8 @@
+---
+- hosts: 192.168.43.4
+  roles:
+    - httpd
+    - git
+  tasks: 
+    - name: clone applicaion from git
+      git: repo=https://github.com/demoglot/html-samples-food.git dest=/var/www/html force=yes

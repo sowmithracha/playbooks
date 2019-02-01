@@ -1,0 +1,9 @@
+---
+ - hosts: all
+   tasks: 
+   - name: copying file
+     copy: src=/home/sowmith/file dest=/opt
+   - name: installing ftp
+     package: name=vsftpd state=present
+   - name: start service
+     service: name=vsftpd state=started

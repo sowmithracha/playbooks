@@ -1,0 +1,5 @@
+---
+- hosts: 192.168.43.4
+  tasks:
+  - name: acl permission to user
+    acl: path= /opt/java/java9/jdk entity=sowmith etype=user permissions=rwx state=present

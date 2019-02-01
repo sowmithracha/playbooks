@@ -1,0 +1,18 @@
+---
+- hosts: 192.168.43.6
+  vars:
+    - download_file: https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10/openjdk-10.0.1_linux-x64_bin.tar.gz
+  tasks: 
+    - name: create java folder
+      file: path=/opt/java/java9/jdk state=directory
+    - name: download java file
+      get_url: url={{download_file}} dest=/opt/java/java9
+    - name: unzip downloaded java file
+      unarchive: src=/opt/java/java9/openjdk-10.0.1_linux-x64_bin.tar.gz dest=/opt/java/java9/jdk remote_src=yes 
+    - name: create sym links
+      file: path="/opt/java/current" src=/opt/java/java9 state=link
+    - name: add java variable
+      lineinfile: path=/etc/bashrc line='export JAVA_HOME="/opt/java/java9/jdk/jdk-11.0.1' 
+      lineinfile: path=/etc/bashrc line='export PATH=$JAVA_HOME/bin:$PATH'
+    - name: update variable file
+      shell: source /etc/bashrc 

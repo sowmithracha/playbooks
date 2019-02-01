@@ -1,0 +1,33 @@
+---
+- hosts: 192.168.43.4
+  vars:
+    - download_file: http://mirrors.fibergrid.in/apache/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+  tasks: 
+    - name: create maven folder
+      file: 
+        path: /opt/maven/m2 
+        state: directory
+    - name: download maven file
+      get_url: 
+        url: "{{download_file}}" 
+        dest: "/opt/maven"
+    - name: unzip downloaded maven file
+      unarchive: 
+        src: /opt/maven/apache-maven-3.5.4-bin.tar.gz 
+        dest: /opt/maven/m2 
+        remote_src: yes 
+    - name: create sym links
+      file: 
+        path: "/opt/maven-soft" 
+        src: /opt/maven 
+        state: link
+    - name: add maven variable
+      lineinfile: 
+        path: /etc/bashrc
+        line: set i 
+        line: 'export M2_HOME=/opt/maven/m2/apache-maven-3.5.4/bin/mvn' 
+        line: 'export PATH=$PATH/opt/maven/m2/apache-maven-3.5.4/bin'
+        state: present
+      #create: yes
+    - name: update variable file
+      shell: source /etc/bashrc 
